@@ -110,7 +110,29 @@ class SASRec(nn.Module):
 
         return mask
 
+    def score_items(self, features, item_ids):
+        # 获取候选商品的 Embedding
+        item_emb = self.item_embedding(item_ids)
 
+        # 计算点积，得到每个位置的预测分数
+        logits = (features * item_emb).sum(dim=-1)
+
+        return logits
+
+
+    def forward_train(self, seq, pos, neg):
+        # 编码历史序列
+        features = self.forward(seq)
+
+        # 正样本打分
+        pos_logits = self.score_items(features, pos)
+
+        # 负样本打分
+        neg_logits = self.score_items(features, neg)
+
+        return pos_logits, neg_logits
+
+    
     def forward(self, seq):
         # 商品 Embedding
         item_emb = self.item_embedding(seq) * (self.item_embedding.embedding_dim ** 0.5)
