@@ -16,3 +16,6 @@ data/
 *.pth
 checkpoints/
 runs/
+
+# 测试文件
+test_data.py

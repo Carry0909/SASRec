@@ -65,9 +65,9 @@ class SASRecDataset(Dataset):
     def __len__(self):
         return len(self.user_ids)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, index):
         # 取得用户交互序列
-        uid = self.user_ids[idx]
+        uid = self.user_ids[index]
         items = self.user_train[uid]
 
         # 构造训练样本
